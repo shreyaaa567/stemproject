@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiment 1 - Fun with Physics</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <style>
+    body {
+        font-family: 'Google Sans', 'Segoe UI', Roboto, Arial, sans-serif;
+        color: var(--dark);
+        background-color: var(--light);
+        overflow-x: hidden;
+    }
+    
+    /* Announcement Bar */
+    .announcement-bar {
+    background-color: #FF6500; /* vibrant orange */
+    color: white;
+    padding: 8px 0;
+    text-align: center;
+    font-size: 14px;
+    transition: height 0.3s ease-in-out, padding 0.3s ease-in-out, overflow 0.3s ease-in-out;
+    }
+
+    .announcement-bar a {
+    color: white;
+    font-weight: bold;
+    text-decoration: underline;
+    }
+
+    .announcement-bar a:hover {
+    color: #FF8533; /* lighter orange on hover */
+    }
+
+    
+    /* Main Navigation */
+    .navbar {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        padding: 12px 0;
+    }
+    
+    .navbar-brand {
+        font-weight: 700;
+        font-size: 24px;
+        color: var(--primary);
+    }
+    
+    .navbar-nav .nav-link {
+        font-weight: 500;
+        color: var(--secondary);
+        margin: 0 10px;
+        position: relative;
+    }
+    
+    .navbar-nav .nav-link:after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: var(--primary);
+        transition: width 0.3s ease;
+    }
+    
+    .navbar-nav .nav-link:hover:after {
+        width: 100%;
+    }
+    
+    .search-box {
+        position: relative;
+    }
+    
+    .search-input {
+        border-radius: 20px;
+        padding-left: 35px;
+        border: 1px solid #ddd;
+        transition: all 0.3s ease;
+    }
+    
+    .search-input:focus {
+        box-shadow: 0 0 0 3px rgba(255, 101, 0, 0.2);
+        border-color: var(--primary);
+    }
+    
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #666;
+    }
+    
+    /* Hero Section */
+    .hero-section {
+        padding: 60px 0;
+        background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%);
+        position: relative;
+        overflow: hidden;
+        color: white;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: white;
+    }
+    
+    .hero-description {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        max-width: 600px;
+        color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .hero-cta {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .hero-cta:hover {
+        background-color: #e55a00;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 101, 0, 0.3);
+    }
+    
+    .hero-thumbnails {
+        position: relative;
+        height: 300px;
+    }
+    
+    .thumbnail {
+        position: absolute;
+        border-radius: 8px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+    
+    .thumbnail:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    
+    .thumbnail-1 {
+        width: 180px;
+        height: 120px;
+        top: 20px;
+        right: 20px;
+        background-color: var(--primary);
+        z-index: 1;
+    }
+    
+    .thumbnail-2 {
+        width: 150px;
+        height: 150px;
+        top: 100px;
+        right: 180px;
+        background-color: var(--secondary);
+        z-index: 2;
+    }
+    
+    .thumbnail-3 {
+        width: 200px;
+        height: 130px;
+        top: 160px;
+        right: 60px;
+        background-color: var(--dark);
+        z-index: 3;
+    }
+    
+    /* Intro Section */
+    .intro-section {
+        padding: 60px 0;
+        text-align: center;
+        background-color: white;
+    }
+    
+    .intro-text {
+        font-size: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+        color: var(--secondary);
+    }
+    
+    /* Collections Section */
+    .collections-section {
+        padding: 60px 0;
+        background-color: #f8f9fa;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 40px;
+        position: relative;
+        display: inline-block;
+        color: var(--dark);
+    }
+    
+    .section-title:after {
+        content: '';
+        position: absolute;
+        width: 60px;
+        height: 4px;
+        background-color: var(--primary);
+        bottom: -10px;
+        left: 0;
+    }
+    
+    .collection-card {
+        height: 250px;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .collection-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    
+    .collection-card:hover .collection-overlay {
+        opacity: 0.9;
+    }
+    
+    .collection-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    }
+    
+    .collection-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(11, 25, 44, 0.8) 0%, rgba(11, 25, 44, 0.2) 100%);
+        z-index: 2;
+        opacity: 0.7;
+        transition: all 0.3s ease;
+    }
+    
+    .collection-content {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        z-index: 3;
+        color: white;
+    }
+    
+    .collection-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    .collection-count {
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+    
+    /* Recent Experiments */
+    .recent-section {
+        padding: 60px 0;
+        background-color: white;
+    }
+    
+    .experiment-card {
+        background-color: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        margin-bottom: 30px;
+        height: 100%;
+        border: 1px solid #eee;
+    }
+    
+    .experiment-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .experiment-image {
+        height: 180px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .experiment-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .experiment-card:hover .experiment-image img {
+        transform: scale(1.05);
+    }
+    
+    .experiment-play {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255,255,255,0.9);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    
+    .experiment-play i {
+        color: var(--primary);
+    }
+    
+    .experiment-card:hover .experiment-play {
+        opacity: 1;
+    }
+    
+    .experiment-content {
+        padding: 20px;
+    }
+    
+    .experiment-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--dark);
+    }
+    
+    .experiment-description {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    .experiment-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+        color: #888;
+    }
+    
+    /* Sidebar */
+    .sidebar-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        position: relative;
+        display: inline-block;
+        color: var(--dark);
+    }
+    
+    .sidebar-title:after {
+        content: '';
+        position: absolute;
+        width: 40px;
+        height: 3px;
+        background-color: var(--primary);
+        bottom: -8px;
+        left: 0;
+    }
+    
+    .trending-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .trending-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+    
+    .trending-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .trending-content h5 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+        color: var(--dark);
+    }
+    
+    .trending-content p {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 0;
+    }
+    
+    /* Footer */
+    .footer {
+        background-color: var(--secondary);
+        color: white;
+        padding: 60px 0 30px;
+    }
+
+    
+    .footer-logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--primary);
+    }
+    
+    .footer-description {
+        color: var(--background);
+        margin-bottom: 30px;
+    }
+    
+    .footer-links h5 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: white;
+    }
+    
+    .footer-links ul {
+        color: var(--background);
+        list-style: none;
+        padding: 0;
+    }
+    
+    .footer-links li {
+        color: var(--background);
+        margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+        color: var(--background);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+        color: var(--primary);
+    }
+    
+    .footer-bottom {
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 20px;
+        margin-top: 40px;
+        font-size: 0.9rem;
+        color: var(--background);
+    }
+    
+    .social-links a {
+        color: var(--background);
+        margin-left: 15px;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+        color: var(--primary);
+    }
+    
+    /* Button Styles */
+    .btn-primary {
+        background-color: var(--primary);
+        border-color: var(--primary);
+    }
+    
+    .btn-primary:hover {
+        background-color: #e55a00;
+        border-color: #e55a00;
+    }
+    
+    .btn-outline-primary {
+        color: var(--primary);
+        border-color: var(--primary);
+    }
+    
+    .btn-outline-primary:hover {
+        background-color: var(--primary);
+        border-color: var(--primary);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 991px) {
+        .hero-thumbnails {
+            display: none;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        
+        .sidebar {
+            margin-top: 40px;
+        }
+    }
+    
+    @media (max-width: 767px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+        
+        .intro-text {
+            font-size: 1.2rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="announcement-bar">
+    Brains Behind the Magic
+    <a href="team.html">Meet the squad that brews up science with style. →</a>
+  </div>
+
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="main2.html">Sarvshixiit Lab</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          
+          <li class="nav-item">
+            <a class="nav-link" href="main2.html#experiments">Explore Experiments</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="main2.html">Home</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<div class="container content">
+  <div class="row">
+
+    <!-- First Foreword Block -->
+    <div class="col-md-6 mb-4">
+      <h1 > Shruti Mishra</h1>
+      <div class="step">
+        <img src="assets\designers\shruti.png" alt="Step 1 Image Placeholder" class="step-image mb-4 img-fluid">
+        <p>Working on this project was an incredible learning journey. Translating and testing each experiment helped me truly understand the physics concepts I once only read about. Seeing those ideas come alive through simple tools was magical! It made me realize how powerful hands-on learning can be, not just for students, but for us as creators too.</p>
+      </div>
+      <div class="text-center mt-3">
+        <div class="d-flex justify-content-center gap-4 mt-2">
+          <a href="https://www.linkedin.com/in/shrutimishra2002/" target="_blank" class="text-primary fs-3"><i class="bi bi-linkedin"></i></a>
+           </div>
+      </div>
+    </div>
+
+    <!-- Second Foreword Block -->
+    <div class="col-md-6 mb-4">
+      <h1>Shreya Bakra</h1>
+      <div class="step">
+        <img src="assets\designers\shreya.png" alt="Step 1 Image Placeholder" class="step-image mb-4 img-fluid">
+        <p>This internship wasn't just about building content—it was about rediscovering science in its raw, exciting form. Every experiment sparked curiosity, and every 'Do & Think' section made me reflect deeply. I'm proud that what we created can help make science fun and real for so many school students!</p>
+      </div>
+      <div class="text-center mt-3">
+        <div class="d-flex justify-content-center gap-4 mt-2">
+          <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="text-primary fs-3"><i class="bi bi-linkedin"></i></a>
+          </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="footer-logo">Sarvshixiit Lab</div>
+                <p class="footer-description">Fun with Physics: 12+ Hands-On Experiments for Classes 6–8</p>
+            </div>
+            <div class="col-md-4 col-lg-2 mb-4">
+            </div>
+            <div class="col-md-4 col-lg-2 mb-4">
+            </div>
+            <div class="col-md-4 col-lg-2 mb-4"> 
+            </div>
+            <div class="col-lg-2 mb-4">
+                <div class="footer-links">
+                    <h5 color="F8F9FA">Quick Links</h5>
+
+                    <ul class="list-unstyled">
+                        <li><a href="team.html" class="text-decoration-none">Team</a></li>
+                        <li><a href="contact.html" class="text-decoration-none">Contact</a></li>
+                        <li><a href="designer.html" class="text-decoration-none">Designer</a></li>
+                        <li><a href="acknowledgement.html" class="text-decoration-none">Foreword</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <p class="mb-0">© 2025 | Sarvshixiit Private Limited, IIT Kanpur | All Rights Reserved</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="https://sarvshixiit.com/"><i class="bi bi-globe"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</script>
+<style>
+    /* Global Styles */
+    :root {
+        --primary: #FF6500;
+        --secondary: #1E3E62;
+        --background: #F8F9FA;
+        --text-color: #333;
+    }
+    
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: var(--background);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+    }
+    
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+    }
+    
+    /* Navbar Styles */
+    .navbar {
+        background-color: var(--secondary);
+        padding: 20px 30px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .navbar-brand {
+        font-size: 1.5rem;
+        color: white;
+    }
+    
+    .nav-link {
+        color: white !important;
+    }
+    
+    .search-box {
+        position: relative;
+    }
+    
+    .search-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #aaa;
+    }
+    
+    .search-input {
+        padding-left: 30px;
+        width: 200px;
+        transition: width 0.3s ease-in-out;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: white;            
+        color: #333;
+        height: 38px;
+        font-size: 14px;
+        }
+    .search-input:focus {
+        width: 250px;
+        border-color: var(--primary);
+        outline: none;
+    }       
+    .search-input::placeholder {
+        color: #aaa;
+    }
+    .navbar-toggler {
+        border: none;
+    }
+    .navbar-toggler-icon {
+        background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"%3E%3Cpath stroke="%23fff" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
+    }
+    .navbar-collapse {
+        flex-grow: 0;
+    }
+    .navbar-nav {
+        flex-direction: row;
+    }
+    .navbar-nav li {
+        margin-left: 20px;
+    }   
+    .navbar-nav .nav-link {
+        font-size: 1rem;
+        font-weight: 500;
+        transition: color 0.3s ease-in-out;
+    }
+    .navbar-nav .nav-link:hover {
+        color: var(--primary);
+    }
+    .navbar-nav .nav-link.active {
+        color: var(--primary);
+        font-weight: 600;
+    }
+    .announcement-bar {
+    background-color: #FF6500; /* vibrant orange */
+    color: white;
+    padding: 8px 0;
+    text-align: center;
+    font-size: 14px;
+    transition: height 0.3s ease-in-out, padding 0.3s ease-in-out, overflow 0.3s ease-in-out;
+    }
+
+    .announcement-bar a {
+    color: white;
+    font-weight: bold;
+    text-decoration: underline;
+    }
+
+    .announcement-bar a:hover {
+    color: #FF8533; /* lighter orange on hover */
+    }
+
+    /* Hero Section Styles */
+    .hero-section {
+        background-color: var(--secondary);
+        color: white;
+        padding: 60px 0;
+    }
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+    .navbar {
+      background-color: #1E3E62;
+    }
+    .navbar-brand, .nav-link {
+      color: white !important;
+    }
+    .content {
+      padding: 40px 20px;
+    }
+    h4 {
+      font-size: 1.5rem;
+      margin-top: 20px;
+      color: #ffffff;
+    }
+    h1, h2 {
+      color: #FF6500;
+    }
+    .step {
+      margin-top: 30px;
+      padding: 20px;
+      border: 1px solid #444;
+      border-radius: 10px;
+      background-color: #132942;
+    }
+    .step-image {
+      width: 200px;           /* Fixed width */
+      height: 250px;          /* Fixed height */
+      object-fit: cover;      /* Crop to fit */
+      display: block;
+      margin: 0 auto;         /* Center the image */
+      border-radius: 8px;     /* Optional: rounded corners */
+    }
+    .note {
+      margin-top: 40px;
+      background-color: var(--primary);
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      color: var(--background);
+    }
+    p {
+      line-height: 1.6;
+      color: #ffffff;
+    }
+    
+    
+    img {
+  background-color: transparent;
+}
+
+  </style>
+</style>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

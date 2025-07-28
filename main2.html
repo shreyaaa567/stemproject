@@ -1,0 +1,1134 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebLab - Explore Web Experiments</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap">
+</head>
+<body>
+<style>
+    body {
+        font-family: 'Google Sans', 'Segoe UI', Roboto, Arial, sans-serif;
+        color: var(--dark);
+        background-color: var(--light);
+        overflow-x: hidden;
+    }
+    
+    /* Announcement Bar */
+    .announcement-bar {
+    background-color: #FF6500; /* vibrant orange */
+    color: white;
+    padding: 8px 0;
+    text-align: center;
+    font-size: 14px;
+    transition: height 0.3s ease-in-out, padding 0.3s ease-in-out, overflow 0.3s ease-in-out;
+    }
+
+    .announcement-bar a {
+    color: white;
+    font-weight: bold;
+    text-decoration: underline;
+    }
+
+    .announcement-bar a:hover {
+    color: #FF8533; /* lighter orange on hover */
+    }
+
+    
+    /* Main Navigation */
+    .navbar {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        padding: 12px 0;
+    }
+    
+    .navbar-brand {
+        font-weight: 700;
+        font-size: 24px;
+        color: var(--primary);
+    }
+    
+    .navbar-nav .nav-link {
+        font-weight: 500;
+        color: var(--secondary);
+        margin: 0 10px;
+        position: relative;
+    }
+    
+    .navbar-nav .nav-link:after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: var(--primary);
+        transition: width 0.3s ease;
+    }
+    
+    .navbar-nav .nav-link:hover:after {
+        width: 100%;
+    }
+    
+    .search-box {
+        position: relative;
+    }
+    
+    .search-input {
+        border-radius: 20px;
+        padding-left: 35px;
+        border: 1px solid #ddd;
+        transition: all 0.3s ease;
+    }
+    
+    .search-input:focus {
+        box-shadow: 0 0 0 3px rgba(255, 101, 0, 0.2);
+        border-color: var(--primary);
+    }
+    
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #666;
+    }
+    
+    /* Hero Section */
+    .hero-section {
+        padding: 60px 0;
+        background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%);
+        position: relative;
+        overflow: hidden;
+        color: white;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: white;
+    }
+    
+    .hero-description {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        max-width: 600px;
+        color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .hero-cta {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .hero-cta:hover {
+        background-color: #e55a00;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 101, 0, 0.3);
+    }
+    
+    .hero-thumbnails {
+        position: relative;
+        height: 300px;
+    }
+    
+    .thumbnail {
+        position: absolute;
+        border-radius: 8px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+    
+    .thumbnail:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    
+    .thumbnail-1 {
+        width: 180px;
+        height: 120px;
+        top: 20px;
+        right: 20px;
+        background-color: var(--primary);
+        z-index: 1;
+    }
+    
+    .thumbnail-2 {
+        width: 150px;
+        height: 150px;
+        top: 100px;
+        right: 180px;
+        background-color: var(--secondary);
+        z-index: 2;
+    }
+    
+    .thumbnail-3 {
+        width: 200px;
+        height: 130px;
+        top: 160px;
+        right: 60px;
+        background-color: var(--dark);
+        z-index: 3;
+    }
+    
+    /* Intro Section */
+    .intro-section {
+        padding: 60px 0;
+        text-align: center;
+        background-color: white;
+    }
+    
+    .intro-text {
+        font-size: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+        color: var(--secondary);
+    }
+    
+    /* Collections Section */
+    .collections-section {
+        padding: 60px 0;
+        background-color: #f8f9fa;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 40px;
+        position: relative;
+        display: inline-block;
+        color: var(--dark);
+    }
+    
+    .section-title:after {
+        content: '';
+        position: absolute;
+        width: 60px;
+        height: 4px;
+        background-color: var(--primary);
+        bottom: -10px;
+        left: 0;
+    }
+    
+    .collection-card {
+        height: 250px;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .collection-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    
+    .collection-card:hover .collection-overlay {
+        opacity: 0.9;
+    }
+    
+    .collection-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    }
+    
+    .collection-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(11, 25, 44, 0.8) 0%, rgba(11, 25, 44, 0.2) 100%);
+        z-index: 2;
+        opacity: 0.7;
+        transition: all 0.3s ease;
+    }
+    
+    .collection-content {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        z-index: 3;
+        color: white;
+    }
+    
+    .collection-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    .collection-count {
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+    
+    /* Recent Experiments */
+    .recent-section {
+        padding: 60px 0;
+        background-color: white;
+    }
+    
+    .experiment-card {
+        background-color: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        margin-bottom: 30px;
+        height: 100%;
+        border: 1px solid #eee;
+    }
+    
+    .experiment-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .experiment-image {
+        height: 180px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .experiment-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .experiment-card:hover .experiment-image img {
+        transform: scale(1.05);
+    }
+    
+    .experiment-play {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255,255,255,0.9);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+    
+    .experiment-play i {
+        color: var(--primary);
+    }
+    
+    .experiment-card:hover .experiment-play {
+        opacity: 1;
+    }
+    
+    .experiment-content {
+        padding: 20px;
+    }
+    
+    .experiment-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--dark);
+    }
+    
+    .experiment-description {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    .experiment-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+        color: #888;
+    }
+    
+    /* Sidebar */
+    .sidebar-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        position: relative;
+        display: inline-block;
+        color: var(--dark);
+    }
+    
+    .sidebar-title:after {
+        content: '';
+        position: absolute;
+        width: 40px;
+        height: 3px;
+        background-color: var(--primary);
+        bottom: -8px;
+        left: 0;
+    }
+    
+    .trending-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .trending-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+    
+    .trending-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .trending-content h5 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+        color: var(--dark);
+    }
+    
+    .trending-content p {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 0;
+    }
+    
+    /* Footer */
+    .footer {
+        background-color: var(--secondary);
+        color: white;
+        padding: 60px 0 30px;
+    }
+
+    
+    .footer-logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--primary);
+    }
+    
+    .footer-description {
+        color: var(--background);
+        margin-bottom: 30px;
+    }
+    
+    .footer-links h5 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: white;
+    }
+    
+    .footer-links ul {
+        color: var(--background);
+        list-style: none;
+        padding: 0;
+    }
+    
+    .footer-links li {
+        color: var(--background);
+        margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+        color: var(--background);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+        color: var(--primary);
+    }
+    
+    .footer-bottom {
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 20px;
+        margin-top: 40px;
+        font-size: 0.9rem;
+        color: var(--background);
+    }
+    
+    .social-links a {
+        color: var(--background);
+        margin-left: 15px;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+        color: var(--primary);
+    }
+    
+    /* Button Styles */
+    .btn-primary {
+        background-color: var(--primary);
+        border-color: var(--primary);
+    }
+    
+    .btn-primary:hover {
+        background-color: #e55a00;
+        border-color: #e55a00;
+    }
+    
+    .btn-outline-primary {
+        color: var(--primary);
+        border-color: var(--primary);
+    }
+    
+    .btn-outline-primary:hover {
+        background-color: var(--primary);
+        border-color: var(--primary);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 991px) {
+        .hero-thumbnails {
+            display: none;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        
+        .sidebar {
+            margin-top: 40px;
+        }
+    }
+    
+    @media (max-width: 767px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+        
+        .intro-text {
+            font-size: 1.2rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+  <div class="announcement-bar">
+    Brains Behind the Magic
+    <a href="team.html">Meet the squad that brews up science with style. →</a>
+  </div>
+
+
+
+<!-- Main Navigation -->
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Sarvshixiit Lab</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="acknowledgement.html">Foreword</a>
+                </li>
+            </ul>
+            <div class="search-box">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" class="form-control search-input" placeholder="Search experiments...">
+            </div>
+            
+        </div>
+    </div>
+</nav>
+
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 hero-content">
+        <h1 class="hero-title">Fun with Physics</h1>
+        <p class="hero-description">
+          A student-centric, activity-based learning guide featuring 12+ hands-on physics experiments aligned with NEP for Classes 6–8. Created by interns from IIT Kanpur under the guidance of Prof. Amey Karkare.
+        </p>
+        <a href="#experiments" class="btn hero-cta">Explore Experiments</a>
+
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-thumbnails d-flex justify-content-between">
+          <div class="thumbnail thumbnail-1 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <img src="assets\home\b.png" alt="Logo 1" class="img-fluid rounded shadow-sm">
+          </div>
+          <div class="thumbnail thumbnail-2 animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+            <img src="assets\home\c.png" alt="Logo 2" class="img-fluid rounded shadow-sm">
+          </div>
+          <div class="thumbnail thumbnail-3 animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+            <img src="assets\home\a.png" alt="Logo 3" class="img-fluid rounded shadow-sm">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Animation CSS (Ensure this is included in your main HTML) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+
+<!-- Intro Section -->
+<section class="intro-section">
+  <div class="container">
+    <p class="intro-text">
+      Developed in collaboration with Sarvshixiit Pvt. Ltd., IIT Kanpur and Ekrida Services Pvt. Ltd., this guide presents interactive physics experiments translated from Hindi and curated with reflective learning elements for middle school students.
+    </p>
+  </div>
+</section>
+
+<!-- Collections Section -->
+<section id="experiments" class="collections-section py-5">
+  <div class="container">
+    <h2 class="section-title text-center mb-3">Featured Experiment Collections</h2>
+    <p class="section-subtitle mb-5">
+      Explore our curated selection of engaging, hands-on physics experiments designed for experiential learning.
+    </p>
+
+    <div class="row" id="experiment-list">
+      <!-- First 6 Experiments (Visible) -->
+      <!-- Paste Experiments 1 to 6 here (as in the previous answer) -->
+      <!-- 1 -->
+      <div class="col-md-6 col-lg-4 mb-4" data-title="A Drop of Water Makes a Strong Joint">
+        <a href="exp1.html" class="text-decoration-none">
+          <div class="collection-card position-relative">
+            <div class="collection-bg">
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
+                <defs>
+                  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#0B192C" />
+                    <stop offset="100%" style="stop-color:#1E3E62" />
+                  </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grad1)" />
+                <circle cx="50" cy="50" r="30" stroke="white" stroke-opacity="0.2" fill="none" />
+              </svg>
+            </div>
+            <div class="collection-content position-absolute top-50 start-50 translate-middle text-center text-white">
+              <h3 class="collection-title h5">A Drop of Water Makes a Strong Joint</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 2 -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="exp2.html" class="text-decoration-none">
+          <div class="collection-card position-relative">
+            <div class="collection-bg">
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
+                <defs>
+                  <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#FF6500" />
+                    <stop offset="100%" style="stop-color:#917f7f" />
+                  </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grad2)" />
+                <path d="M10,50 Q50,10 90,50 Q50,90 10,50" stroke="white" stroke-opacity="0.2" fill="none"/>
+              </svg>
+            </div>
+            <div class="collection-content position-absolute top-50 start-50 translate-middle text-center text-white">
+              <h3 class="collection-title h5">Game with Nails and Balloons</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 3 -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="exp3.html" class="text-decoration-none">
+          <div class="collection-card position-relative">
+            <div class="collection-bg">
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
+                <defs>
+                  <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#1E3E62" />
+                    <stop offset="100%" style="stop-color:#0B192C" />
+                  </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grad3)" />
+                <path d="M20,20 L80,80 M20,80 L80,20" stroke="white" stroke-opacity="0.2" />
+              </svg>
+            </div>
+            <div class="collection-content position-absolute top-50 start-50 translate-middle text-center text-white">
+              <h3 class="collection-title h5">Hanging Water</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 4 -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="exp4.html" class="text-decoration-none">
+          <div class="collection-card position-relative">
+            <div class="collection-bg">
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
+                <defs>
+                  <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#FF6500" />
+                    <stop offset="100%" style="stop-color:#1c130d" />
+                  </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grad4)" />
+                <circle cx="50" cy="50" r="25" stroke="white" stroke-opacity="0.2" fill="none" />
+              </svg>
+            </div>
+            <div class="collection-content position-absolute top-50 start-50 translate-middle text-center text-white">
+              <h3 class="collection-title h5">Oxygen is Required to Burn</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 5 -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="exp5.html" class="text-decoration-none">
+          <div class="collection-card position-relative">
+            <div class="collection-bg">
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
+                <defs>
+                  <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#0B192C" />
+                    <stop offset="100%" style="stop-color:#e5641f" />
+                  </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grad5)" />
+                <circle cx="50" cy="50" r="20" stroke="white" stroke-opacity="0.2" fill="none" />
+              </svg>
+            </div>
+            <div class="collection-content position-absolute top-50 start-50 translate-middle text-center text-white">
+              <h3 class="collection-title h5">Which Candle Will Go Out First?</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 6 -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="exp6.html" class="text-decoration-none">
+          <div class="collection-card position-relative">
+            <div class="collection-bg">
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
+                <defs>
+                  <linearGradient id="grad6" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#1E3E62" />
+                    <stop offset="100%" style="stop-color:#FF6500" />
+                  </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grad6)" />
+                <path d="M20,20 L80,80" stroke="white" stroke-opacity="0.2" />
+              </svg>
+            </div>
+            <div class="collection-content position-absolute top-50 start-50 translate-middle text-center text-white">
+              <h3 class="collection-title h5">Water Level</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+
+
+      <!-- Repeat similarly for experiments 2–6 -->
+
+    </div>
+
+    <!-- Hidden Experiments 7–12 -->
+    <div class="row d-none" id="moreExperiments">
+      <!-- Paste Experiments 7 to 12 here -->
+
+      <!-- 7 -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="exp7.html" class="text-decoration-none">
+          <div class="collection-card position-relative">
+            <div class="collection-bg">
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
+                <defs>
+                  <linearGradient id="grad7" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ce4a0d" />
+                    <stop offset="100%" style="stop-color:#e79a5b" />
+                  </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grad7)" />
+                <circle cx="50" cy="50" r="22" stroke="white" stroke-opacity="0.2" fill="none"/>
+              </svg>
+            </div>
+            <div class="collection-content position-absolute top-50 start-50 translate-middle text-center text-white">
+              <h3 class="collection-title h5">Drink Both Air and Water</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 8 -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="exp8.html" class="text-decoration-none">
+          <div class="collection-card position-relative">
+            <div class="collection-bg">
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
+                <defs>
+                  <linearGradient id="grad8" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#0a467e" />
+                    <stop offset="100%" style="stop-color:#040d15" />
+                  </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grad8)" />
+                <path d="M30,30 L70,70" stroke="white" stroke-opacity="0.2" />
+              </svg>
+            </div>
+            <div class="collection-content position-absolute top-50 start-50 translate-middle text-center text-white">
+              <h3 class="collection-title h5">Standing the CD on the Finger</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 9 -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="exp9.html" class="text-decoration-none">
+          <div class="collection-card position-relative">
+            <div class="collection-bg">
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
+                <defs>
+                  <linearGradient id="grad9" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#06173a" />
+                    <stop offset="100%" style="stop-color:#934209" />
+                  </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grad9)" />
+                <circle cx="50" cy="50" r="15" stroke="white" stroke-opacity="0.2" fill="none" />
+              </svg>
+            </div>
+            <div class="collection-content position-absolute top-50 start-50 translate-middle text-center text-white">
+              <h3 class="collection-title h5">How Much is One Newton?</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 10 -->
+      <div class="col-md-6 col-lg-4 mb-4">
+        <a href="exp10.html" class="text-decoration-none">
+          <div class="collection-card position-relative">
+            <div class="collection-bg">
+              <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
+                <defs>
+                  <linearGradient id="grad10" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#010000" />
+                    <stop offset="100%" style="stop-color:#ce4a0d" />
+                  </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grad10)" />
+              </svg>
+            </div>
+            <div class="collection-content position-absolute top-50 start-50 translate-middle text-center text-white">
+              <h3 class="collection-title h5">Where Did the Sugar Go?</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      
+
+      <!-- Repeat similarly for experiments 8–12 -->
+    </div>
+
+    <div class="text-center mt-4">
+      <button id="loadMoreBtn" class="btn btn-outline-primary px-4 py-2">Load More</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="footer-logo">Sarvshixiit Lab</div>
+                <p class="footer-description">Fun with Physics: 12+ Hands-On Experiments for Classes 6–8</p>
+            </div>
+            <div class="col-md-4 col-lg-2 mb-4">
+            </div>
+            <div class="col-md-4 col-lg-2 mb-4">
+            </div>
+            <div class="col-md-4 col-lg-2 mb-4"> 
+            </div>
+            <div class="col-lg-2 mb-4">
+                <div class="footer-links">
+                    <h5 color="F8F9FA">Quick Links</h5>
+
+                    <ul class="list-unstyled">
+                        <li><a href="team.html" class="text-decoration-none">Team</a></li>
+                        <li><a href="contact.html" class="text-decoration-none">Contact</a></li>
+                        <li><a href="designer.html" class="text-decoration-none">Designer</a></li>
+                        <li><a href="acknowledgement.html" class="text-decoration-none">Foreword</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <p class="mb-0">© 2025 | Sarvshixiit Private Limited, IIT Kanpur | All Rights Reserved</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="https://sarvshixiit.com/"><i class="bi bi-globe"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const searchInput = document.querySelector('.search-input');
+  const cards = document.querySelectorAll('.experiment-card');
+  const moreExperiments = document.getElementById("moreExperiments");
+  const loadMoreBtn = document.getElementById("loadMoreBtn");
+
+  // Show hidden experiments on "Load More"
+  loadMoreBtn.addEventListener('click', () => {
+    moreExperiments.classList.remove('d-none');
+    loadMoreBtn.style.display = 'none';
+  });
+
+  // Filter cards by search
+  searchInput.addEventListener('input', function () {
+    const query = this.value.toLowerCase();
+
+    // Show all cards during search
+    moreExperiments.classList.remove('d-none');
+    loadMoreBtn.style.display = 'none';
+
+    cards.forEach(card => {
+      const title = card.getAttribute('data-title').toLowerCase();
+      card.style.display = title.includes(query) ? '' : 'none';
+    });
+  });
+</script>
+
+<script>
+
+    document.getElementById("loadMoreBtn").addEventListener("click", function () {
+    document.getElementById("moreExperiments").classList.remove("d-none");
+    this.style.display = "none";
+    });
+
+
+    // Make the navbar sticky with animation
+    const navbar = document.querySelector('.navbar');
+    const announcementBar = document.querySelector('.announcement-bar');
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            navbar.classList.add('py-2');
+            navbar.classList.remove('py-3');
+            announcementBar.style.height = '0';
+            announcementBar.style.padding = '0';
+            announcementBar.style.overflow = 'hidden';
+        } else {
+            navbar.classList.remove('py-2');
+            navbar.classList.add('py-3');
+            announcementBar.style.height = 'auto';
+            announcementBar.style.padding = '8px 0';
+        }
+    });
+    
+    // Collection card hover effect
+    const collectionCards = document.querySelectorAll('.collection-card');
+    
+    collectionCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.querySelector('.collection-overlay').style.opacity = '0.9';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.querySelector('.collection-overlay').style.opacity = '0.7';
+        });
+    });
+    
+    
+    
+    
+</script>
+<style>
+    /* Global Styles */
+    :root {
+        --primary: #FF6500;
+        --secondary: #1E3E62;
+        --background: #F8F9FA;
+        --text-color: #333;
+    }
+    
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: var(--background);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+    }
+    
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+    }
+    
+    /* Navbar Styles */
+    .navbar {
+        background-color: var(--secondary);
+        padding: 20px 30px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .navbar-brand {
+        font-size: 1.5rem;
+        color: white;
+    }
+    
+    .nav-link {
+        color: white !important;
+    }
+    
+    .search-box {
+        position: relative;
+    }
+    
+    .search-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #aaa;
+    }
+    
+    .search-input {
+        padding-left: 30px;
+        width: 200px;
+        transition: width 0.3s ease-in-out;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: white;            
+        color: #333;
+        height: 38px;
+        font-size: 14px;
+        }
+    .search-input:focus {
+        width: 250px;
+        border-color: var(--primary);
+        outline: none;
+    }       
+    .search-input::placeholder {
+        color: #aaa;
+    }
+    .navbar-toggler {
+        border: none;
+    }
+    .navbar-toggler-icon {
+        background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"%3E%3Cpath stroke="%23fff" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
+    }
+    .navbar-collapse {
+        flex-grow: 0;
+    }
+    .navbar-nav {
+        flex-direction: row;
+    }
+    .navbar-nav li {
+        margin-left: 20px;
+    }   
+    .navbar-nav .nav-link {
+        font-size: 1rem;
+        font-weight: 500;
+        transition: color 0.3s ease-in-out;
+    }
+    .navbar-nav .nav-link:hover {
+        color: var(--primary);
+    }
+    .navbar-nav .nav-link.active {
+        color: var(--primary);
+        font-weight: 600;
+    }
+    .announcement-bar {
+    background-color: #FF6500; /* vibrant orange */
+    color: white;
+    padding: 8px 0;
+    text-align: center;
+    font-size: 14px;
+    transition: height 0.3s ease-in-out, padding 0.3s ease-in-out, overflow 0.3s ease-in-out;
+    }
+
+    .announcement-bar a {
+    color: white;
+    font-weight: bold;
+    text-decoration: underline;
+    }
+
+    .announcement-bar a:hover {
+    color: #FF8533; /* lighter orange on hover */
+    }
+
+    /* Hero Section Styles */
+    .hero-section {
+        background-color: var(--secondary);
+        color: white;
+        padding: 60px 0;
+    }
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+</style>
+</body>
+</html>
